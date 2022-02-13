@@ -4,9 +4,20 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="./style.css">
         <title>Rock paper scissors</title>
-        <script src="./game.js"></script>
+        <script src="./game.js" defer></script>
     </head>
     <body>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore quasi perspiciatis reiciendis, rerum eius fugit recusandae ad laudantium veritatis quod quo officiis velit tempora iure veniam expedita odit. Quaerat, sed?</p>
+        <div class="button-container">
+            <button class="game-button" name="rock">ROCK</button>
+            <button class="game-button" name="paper">PAPER</button>
+            <button class="game-button" name="scissors">SCISSORS</button>
+        </div>
+
+        <div class="jumbo">
+            <div id="player-score"></div>
+            <div id="comp-score"></div>
+        </div>
+
+        <div id="game-results"></div>
     </body>
 </html>

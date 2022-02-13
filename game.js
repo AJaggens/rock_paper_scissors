@@ -1,43 +1,116 @@
+
 // function that picks a choice for computer
 function computerPlay() {
     let a = Math.floor(Math.random() * 10);
     return (a > 6 ? `scissors` : (a > 3 ? `paper` : `rock`));
 }
 
-// function that takes a user input for game
-
-function playerPlay() {
-    let a = (prompt(`what is your pick skinbag`, ``));
-    return (a);
-}
-
-// well the game that compares two picks
-
-function playRound(human, comp) {
-
-    let a = human.toLowerCase();
-
-    if (a == comp) {
-        return (`Whoa we have a draw no way yikes that's cringe`);
-    } else if (!!((a == `rock` && comp == `scissors`) || (a == `scissors` && comp == `paper`) || (a == `paper` && comp == `rock`))) {
-        return (`Good job buster, ${human} beats ${comp}!`);
-    } else if ((a != `rock`) && (a != `scissors`) && (a != `paper`)) {
-        return (`Da fug is a ${human}`);
+//comparing chosen picks
+function comparePicks(a,b) {
+    if (a == b) {
+        return (`Whoa we have a draw no way yikes that's cringe!`);
+    } else if (!!((a == `rock` && b == `scissors`) || (a == `scissors` && b == `paper`) || (a == `paper` && b == `rock`))) {
+        finalPlayer += 1
+        return (`Good job buster, ${a} beats ${b}!`);
+    // } else if ((player != `rock`) && (player != `scissors`) && (player != `paper`)) {
+    //     return (`Da fug is a ${player}`);
     } else {
-        return (`Sorry mate you lose ${comp} beats your ${human}`);
+        finalComp += 1
+        return (`Sorry mate you lose ${b} beats your ${a}`);
     }
 }
 
-//loop it 5 times
-
-function game() {
-    for (let i = 0; i < 5; i++) {
-        let playerPick = playerPlay();
-        let compPick = computerPlay();
-
-        console.log(playRound(playerPick, compPick));
-    }
-    return;
+//add para with result to container
+function appendResult(r) {
+    const newPara = document.createElement('p')
+    newPara.textContent = `${r}`
+    resultContainer.appendChild(newPara)
 }
 
-game();
+//add a score para
+function insertScoreAndReset () {
+    const resetButton = document.createElement('button')
+    resetButton.id = 'reset-button'
+    resetButton.textContent = 'Restart?'
+    resetButton.addEventListener('click', event => resetGame(event))
+    resultContainer.insertBefore(resetButton, resultContainer.firstChild)
+
+    const finalScore = document.createElement('h1')
+    finalScore.textContent = calculateFinal()
+    resultContainer.insertBefore(finalScore, resultContainer.firstChild)
+
+    
+}
+
+
+//calculate final score
+function calculateFinal() {
+    if (finalPlayer > finalComp) {
+        return `Damn man you good you beat The Machine`
+    } else if (finalPlayer < finalComp){
+        return `It's all ogre skinbag machines own you now`
+    } else {`Fuck me it's a draw wat no way`}
+}
+
+function resetGame() {
+    while (resultContainer.firstChild) {
+        resultContainer.removeChild(resultContainer.firstChild)
+    }
+
+    finalComp = 0
+    finalPlayer = 0
+    updateScreens()
+}
+
+function updateScreens() {
+    playerScreen.textContent = finalPlayer
+    compScreen.textContent = finalComp
+}
+
+//round of game
+function playRound(listener) {
+    if (finalPlayer == 5 || finalComp == 5) {
+        alert(`restart me you coward`)
+        return
+    }
+    const player = listener.target.name
+    const comp = computerPlay()
+    const roundResult = comparePicks(player,comp)
+    
+    if (finalPlayer == 5 || finalComp == 5) {
+        appendResult(roundResult)
+        updateScreens()
+        insertScoreAndReset()
+    } else {
+        appendResult(roundResult)
+        updateScreens()
+    }
+    }
+    
+    // if (resultContainer.childNodes.length == 4) {
+    //     appendResult(roundResult)
+    //     updateScreens()
+    //     appendScore()
+    //     appendReset()
+    // } else if (resultContainer.childNodes.length < 4) {
+    //     appendResult(roundResult)
+    //     updateScreens()
+    // } else {
+    //     alert(`restart me you coward!`)
+    // }
+
+
+
+//assign a container for results
+const resultContainer = document.getElementById('game-results')
+
+let finalPlayer = 0
+let finalComp = 0
+const playerScreen = document.getElementById('player-score')
+const compScreen = document.getElementById('comp-score')
+playerScreen.textContent = finalPlayer
+compScreen.textContent = finalComp
+
+//add event listener on all buttons, on click
+const buttons = document.querySelectorAll('.game-button')
+buttons.forEach(button => button.addEventListener('click', e => playRound(e)))
