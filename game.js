@@ -42,7 +42,6 @@ function insertScoreAndReset () {
     
 }
 
-
 //calculate final score
 function calculateFinal() {
     if (finalPlayer > finalComp) {
@@ -85,25 +84,12 @@ function playRound(listener) {
         appendResult(roundResult)
         updateScreens()
     }
-    }
-    
-    // if (resultContainer.childNodes.length == 4) {
-    //     appendResult(roundResult)
-    //     updateScreens()
-    //     appendScore()
-    //     appendReset()
-    // } else if (resultContainer.childNodes.length < 4) {
-    //     appendResult(roundResult)
-    //     updateScreens()
-    // } else {
-    //     alert(`restart me you coward!`)
-    // }
-
-
+}
 
 //assign a container for results
 const resultContainer = document.getElementById('game-results')
 
+//basic setup with score counter
 let finalPlayer = 0
 let finalComp = 0
 const playerScreen = document.getElementById('player-score')
@@ -111,6 +97,6 @@ const compScreen = document.getElementById('comp-score')
 playerScreen.textContent = finalPlayer
 compScreen.textContent = finalComp
 
-//add event listener on all buttons, on click
+//add event listener on all buttons, on click do a round
 const buttons = document.querySelectorAll('.game-button')
 buttons.forEach(button => button.addEventListener('click', e => playRound(e)))
